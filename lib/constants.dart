@@ -1,0 +1,16 @@
+const List<String> kOptions = <String>[
+  'aardvark',
+  'baboon',
+  'chameleon',
+  'dingo',
+  'elephant',
+  'flamingo',
+  'goose',
+  'hippopotamus',
+  'iguana',
+  'jaguar',
+  'koala',
+  'lemur',
+  'mouse',
+  'northern white rhinocerous',
+];
