@@ -73,7 +73,6 @@ class AutocompleteCoreBasicFormPageState extends State<AutocompleteCoreBasicForm
                 child: AutocompleteCore<String>(
                   autocompleteController: _autocompleteController,
                   onSelected: (String selection) {
-                    _autocompleteController.textEditingController.text = selection;
                     setState(() {
                       _autocompleteSelection = selection;
                     });
