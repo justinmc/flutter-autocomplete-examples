@@ -32,9 +32,6 @@ class AutocompleteCoreBasicPage extends StatelessWidget {
   AutocompleteCoreBasicPage({Key key, this.title}) : super(key: key);
 
   final String title;
-  final AutocompleteController<String> _autocompleteController = AutocompleteController<String>(
-    options: kOptions,
-  );
 
   @override
   Widget build(BuildContext context) {
@@ -44,25 +41,28 @@ class AutocompleteCoreBasicPage extends StatelessWidget {
       ),
       body: Center(
         child: AutocompleteCore<String>(
-          autocompleteController: _autocompleteController,
+          options: kOptions,
           onSelected: (String selection) {
             _showSelectedDialog(context, selection);
           },
-          buildField: (BuildContext context) {
+          buildField: (BuildContext context, TextEditingController textEditingController) {
             return TextFormField(
-              controller: _autocompleteController.textEditingController,
+              controller: textEditingController,
             );
           },
           buildResults: (BuildContext context, OnSelectedAutocomplete<String> onSelected, List<String> results) {
-            return ListView(
-              children: results.map((String result) => GestureDetector(
-                onTap: () {
-                  onSelected(result);
-                },
-                child: ListTile(
-                  title: Text(result),
-                ),
-              )).toList(),
+            return Material(
+              elevation: 4.0,
+              child: ListView(
+                children: results.map((String result) => GestureDetector(
+                  onTap: () {
+                    onSelected(result);
+                  },
+                  child: ListTile(
+                    title: Text(result),
+                  ),
+                )).toList(),
+              ),
             );
           },
         ),

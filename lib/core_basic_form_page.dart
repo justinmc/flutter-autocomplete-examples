@@ -68,28 +68,28 @@ class AutocompleteCoreBasicFormPageState extends State<AutocompleteCoreBasicForm
                   return null;
                 },
               ),
-              Container(
-                height: 200,
-                child: AutocompleteCore<String>(
-                  autocompleteController: _autocompleteController,
-                  onSelected: (String selection) {
-                    setState(() {
-                      _autocompleteSelection = selection;
-                    });
-                  },
-                  buildField: (BuildContext context) {
-                    return TextFormField(
-                      controller: _autocompleteController.textEditingController,
-                      validator: (String value) {
-                        if (!kOptions.contains(value)) {
-                          return 'Nothing selected.';
-                        }
-                        return null;
-                      },
-                    );
-                  },
-                  buildResults: (BuildContext context, OnSelectedAutocomplete<String> onSelected, List<String> results) {
-                    return ListView(
+              AutocompleteCore<String>(
+                autocompleteController: _autocompleteController,
+                onSelected: (String selection) {
+                  setState(() {
+                    _autocompleteSelection = selection;
+                  });
+                },
+                buildField: (BuildContext context, TextEditingController textEditingController) {
+                  return TextFormField(
+                    controller: textEditingController,
+                    validator: (String value) {
+                      if (!kOptions.contains(value)) {
+                        return 'Nothing selected.';
+                      }
+                      return null;
+                    },
+                  );
+                },
+                buildResults: (BuildContext context, OnSelectedAutocomplete<String> onSelected, List<String> results) {
+                  return Material(
+                    elevation: 4.0,
+                    child: ListView(
                       children: results.map((String result) => GestureDetector(
                         onTap: () {
                           onSelected(result);
@@ -98,9 +98,9 @@ class AutocompleteCoreBasicFormPageState extends State<AutocompleteCoreBasicForm
                           title: Text(result),
                         ),
                       )).toList(),
-                    );
-                  },
-                ),
+                    ),
+                  );
+                },
               ),
               RaisedButton(
                 onPressed: () {

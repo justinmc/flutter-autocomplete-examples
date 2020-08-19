@@ -319,7 +319,7 @@ class AutocompleteCoreBasicUserPage extends StatelessWidget {
               text: selected.name,
             );
           },
-          buildField: (BuildContext context) {
+          buildField: (BuildContext context, TextEditingController textEditingController) {
             return TextFormField(
               controller: _autocompleteController.textEditingController,
             );
@@ -364,7 +364,7 @@ class AutocompleteCoreSplitPage extends StatelessWidget {
       body: Center(
         child: AutocompleteCore<String>(
           autocompleteController: _autocompleteController,
-          buildField: (BuildContext context) {
+          buildField: (BuildContext context, TextEditingController textEditingController) {
             return SizedBox.shrink();
           },
           buildResults: (BuildContext context, OnSelectedAutocomplete<String> onSelected, List<String> results) {
@@ -607,7 +607,7 @@ class CustomInputPage extends StatelessWidget {
       body: Center(
         child: AutocompleteDividedMaterial<String>(
           autocompleteController: _autocompleteController,
-          buildField: (BuildContext context) {
+          buildField: (BuildContext context, TextEditingController textEditingController) {
             return TextField(
               controller: _autocompleteController.textEditingController,
               decoration: InputDecoration(
@@ -689,7 +689,7 @@ class FullyCustomizablePageState extends State<FullyCustomizablePage> {
         */
         child: AutocompleteDividedMaterial<String>(
           autocompleteController: _autocompleteController,
-          buildField: (BuildContext context) {
+          buildField: (BuildContext context, TextEditingController textEditingController) {
             return TextFormField(
               controller: _autocompleteController.textEditingController,
               decoration: InputDecoration(

@@ -6,6 +6,7 @@ const List<String> kOptions = <String>[
   'elephant',
   'flamingo',
   'goose',
+  'hippo',
   'hippopotamus',
   'iguana',
   'jaguar',
