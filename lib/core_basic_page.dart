@@ -53,15 +53,18 @@ class AutocompleteCoreBasicPage extends StatelessWidget {
           buildResults: (BuildContext context, OnSelectedAutocomplete<String> onSelected, List<String> results) {
             return Material(
               elevation: 4.0,
-              child: ListView(
-                children: results.map((String result) => GestureDetector(
-                  onTap: () {
-                    onSelected(result);
-                  },
-                  child: ListTile(
-                    title: Text(result),
-                  ),
-                )).toList(),
+              child: SizedBox(
+                height: 200.0,
+                child: ListView(
+                  children: results.map((String result) => GestureDetector(
+                    onTap: () {
+                      onSelected(result);
+                    },
+                    child: ListTile(
+                      title: Text(result),
+                    ),
+                  )).toList(),
+                ),
               ),
             );
           },
