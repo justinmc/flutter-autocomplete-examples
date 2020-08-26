@@ -300,10 +300,10 @@ class AutocompleteCoreSplitPage extends StatelessWidget {
       body: Center(
         child: AutocompleteCore<String>(
           autocompleteController: _autocompleteController,
-          buildField: (BuildContext context, TextEditingController textEditingController) {
+          buildField: (BuildContext context, TextEditingController textEditingController, AutocompleteOnSelectedString onSelectedString) {
             return SizedBox.shrink();
           },
-          buildResults: (BuildContext context, OnSelectedAutocomplete<String> onSelected, List<String> results) {
+          buildResults: (BuildContext context, AutocompleteOnSelected<String> onSelected, List<String> results) {
             return ListView(
               children: results.map((String result) => GestureDetector(
                 onTap: () {
@@ -543,7 +543,7 @@ class CustomInputPage extends StatelessWidget {
       body: Center(
         child: AutocompleteDividedMaterial<String>(
           autocompleteController: _autocompleteController,
-          buildField: (BuildContext context, TextEditingController textEditingController) {
+          buildField: (BuildContext context, TextEditingController textEditingController, AutocompleteOnSelectedString onSelectedString) {
             return TextField(
               controller: _autocompleteController.textEditingController,
               decoration: InputDecoration(
@@ -625,7 +625,7 @@ class FullyCustomizablePageState extends State<FullyCustomizablePage> {
         */
         child: AutocompleteDividedMaterial<String>(
           autocompleteController: _autocompleteController,
-          buildField: (BuildContext context, TextEditingController textEditingController) {
+          buildField: (BuildContext context, TextEditingController textEditingController, AutocompleteOnSelectedString onSelectedString) {
             return TextFormField(
               controller: _autocompleteController.textEditingController,
               decoration: InputDecoration(

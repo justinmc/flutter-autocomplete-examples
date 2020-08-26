@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'selected_dialog.dart';
 
 // An example of a type that someone might want to autocomplete a list of.
 class User {
@@ -27,6 +28,7 @@ class AutocompleteCoreBasicUserPage extends StatelessWidget {
       User(name: 'Bob', email: 'bob@example.com'),
       User(name: 'Charlie', email: 'charlie123@gmail.com'),
     ],
+    displayStringForOption: (User option) => option.name,
   );
 
   @override
@@ -38,29 +40,27 @@ class AutocompleteCoreBasicUserPage extends StatelessWidget {
       body: Center(
         child: AutocompleteCore<User>(
           autocompleteController: _autocompleteController,
-          onSelected: (User selected) {
-            _autocompleteController.textEditingController.value = TextEditingValue(
-              selection: TextSelection.collapsed(offset: selected.name.length),
-              text: selected.name,
-            );
+          onSelected: (User selection) {
+            showSelectedDialog(context, _autocompleteController.displayStringForOption(selection));
           },
-          buildField: (BuildContext context, TextEditingController textEditingController) {
+          buildField: (BuildContext context, TextEditingController textEditingController, AutocompleteOnSelectedString onSelectedString) {
             return TextFormField(
               controller: _autocompleteController.textEditingController,
+              onFieldSubmitted: onSelectedString,
             );
           },
-          buildResults: (BuildContext context, OnSelectedAutocomplete<User> onSelected, List<User> results) {
-            return Material(
-              elevation: 4.0,
-              child: SizedBox(
-                height: 200.0,
+          buildResults: (BuildContext context, AutocompleteOnSelected<User> onSelected, List<User> results) {
+            return SizedBox(
+              height: 200.0,
+              child: Material(
+                elevation: 4.0,
                 child: ListView(
                   children: results.map((User result) => GestureDetector(
                     onTap: () {
                       onSelected(result);
                     },
                     child: ListTile(
-                      title: Text(result.name),
+                      title: Text(_autocompleteController.displayStringForOption(result)),
                     ),
                   )).toList(),
                 ),

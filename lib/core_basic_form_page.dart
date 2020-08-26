@@ -75,9 +75,10 @@ class AutocompleteCoreBasicFormPageState extends State<AutocompleteCoreBasicForm
                     _autocompleteSelection = selection;
                   });
                 },
-                buildField: (BuildContext context, TextEditingController textEditingController) {
+                buildField: (BuildContext context, TextEditingController textEditingController, AutocompleteOnSelectedString onSelectedString) {
                   return TextFormField(
                     controller: textEditingController,
+                    onFieldSubmitted: onSelectedString,
                     validator: (String value) {
                       if (!kOptions.contains(value)) {
                         return 'Nothing selected.';
@@ -86,7 +87,7 @@ class AutocompleteCoreBasicFormPageState extends State<AutocompleteCoreBasicForm
                     },
                   );
                 },
-                buildResults: (BuildContext context, OnSelectedAutocomplete<String> onSelected, List<String> results) {
+                buildResults: (BuildContext context, AutocompleteOnSelected<String> onSelected, List<String> results) {
                   return Material(
                     elevation: 4.0,
                     child: SizedBox(
