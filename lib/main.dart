@@ -2,10 +2,10 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'constants.dart';
 import 'core_basic_form_page.dart';
 import 'core_basic_page.dart';
 import 'core_basic_user_page.dart';
+import 'core_split_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -96,6 +96,7 @@ class MyHomePage extends StatelessWidget {
                 subtitle: const Text('AutocompleteCore in a Form.'),
               ),
             ),
+            /*
             GestureDetector(
               onTap: () {
                 Navigator.of(context).pushNamed('/core-split');
@@ -179,6 +180,7 @@ class MyHomePage extends StatelessWidget {
                 subtitle: const Text('Uses a CupertinoTextField.'),
               ),
             ),
+            */
           ],
         ),
       ),
@@ -277,50 +279,6 @@ class CustomUIAutocompleteState extends State<CustomUIAutocomplete> {
     );
   }
 }
-
-class AutocompleteCoreSplitPage extends StatelessWidget {
-  AutocompleteCoreSplitPage({Key key, this.title}) : super(key: key);
-
-  final String title;
-  final AutocompleteController<String> _autocompleteController = AutocompleteController<String>(
-    options: kOptions,
-  );
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: TextFormField(
-          controller: _autocompleteController.textEditingController,
-          decoration: InputDecoration(
-            hintText: title,
-          ),
-        ),
-      ),
-      body: Center(
-        child: AutocompleteCore<String>(
-          autocompleteController: _autocompleteController,
-          buildField: (BuildContext context, TextEditingController textEditingController, AutocompleteOnSelectedString onSelectedString) {
-            return SizedBox.shrink();
-          },
-          buildResults: (BuildContext context, AutocompleteOnSelected<String> onSelected, List<String> results) {
-            return ListView(
-              children: results.map((String result) => GestureDetector(
-                onTap: () {
-                  onSelected(result);
-                },
-                child: ListTile(
-                  title: Text(result),
-                ),
-              )).toList(),
-            );
-          },
-        ),
-      ),
-    );
-  }
-}
-
 
 /*
 class CustomSearchDelegate extends SearchDelegate {
