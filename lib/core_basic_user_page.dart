@@ -1,22 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'constants.dart';
 import 'selected_dialog.dart';
-
-// An example of a type that someone might want to autocomplete a list of.
-class User {
-  const User({
-    this.email,
-    this.name,
-  });
-
-  final String email;
-  final String name;
-
-  @override
-  String toString() {
-    return '$name, $email';
-  }
-}
 
 class AutocompleteCoreBasicUserPage extends StatelessWidget {
   AutocompleteCoreBasicUserPage({Key key, this.title}) : super(key: key);
@@ -28,6 +13,8 @@ class AutocompleteCoreBasicUserPage extends StatelessWidget {
       User(name: 'Bob', email: 'bob@example.com'),
       User(name: 'Charlie', email: 'charlie123@gmail.com'),
     ],
+    // This shows just the name in the field, even though we can also filter by
+    // email address.
     displayStringForOption: (User option) => option.name,
   );
 
@@ -43,10 +30,12 @@ class AutocompleteCoreBasicUserPage extends StatelessWidget {
           onSelected: (User selection) {
             showSelectedDialog(context, _autocompleteController.displayStringForOption(selection));
           },
-          buildField: (BuildContext context, TextEditingController textEditingController, AutocompleteOnSelectedString onSelectedString) {
+          buildField: (BuildContext context, TextEditingController textEditingController, VoidCallback onFieldSubmitted) {
             return TextFormField(
               controller: _autocompleteController.textEditingController,
-              onFieldSubmitted: onSelectedString,
+              onFieldSubmitted: (String value) {
+                onFieldSubmitted();
+              },
             );
           },
           buildResults: (BuildContext context, AutocompleteOnSelected<User> onSelected, List<User> results) {

@@ -27,7 +27,7 @@ class AutocompleteCoreSplitPage extends StatelessWidget {
       body: Center(
         child: AutocompleteCore<String>(
           autocompleteController: _autocompleteController,
-          buildField: (BuildContext context, TextEditingController textEditingController, AutocompleteOnSelectedString onSelectedString) {
+          buildField: (BuildContext context, TextEditingController textEditingController, VoidCallback onFieldSubmitted) {
             return SizedBox.shrink();
           },
           buildResults: (BuildContext context, AutocompleteOnSelected<String> onSelected, List<String> results) {

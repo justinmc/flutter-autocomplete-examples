@@ -34,6 +34,7 @@ class AutocompleteCoreBasicFormPageState extends State<AutocompleteCoreBasicForm
               DropdownButtonFormField<String>(
                 value: _dropdownValue,
                 icon: Icon(Icons.arrow_downward),
+                hint: const Text('This is a regular DropdownButtonFormField'),
                 iconSize: 24,
                 elevation: 16,
                 style: TextStyle(color: Colors.deepPurple),
@@ -75,10 +76,15 @@ class AutocompleteCoreBasicFormPageState extends State<AutocompleteCoreBasicForm
                     _autocompleteSelection = selection;
                   });
                 },
-                buildField: (BuildContext context, TextEditingController textEditingController, AutocompleteOnSelectedString onSelectedString) {
+                buildField: (BuildContext context, TextEditingController textEditingController, VoidCallback onFieldSubmitted) {
                   return TextFormField(
                     controller: textEditingController,
-                    onFieldSubmitted: onSelectedString,
+                    decoration: InputDecoration(
+                      hintText: 'This is an AutocompleteCore!',
+                    ),
+                    onFieldSubmitted: (String value) {
+                      onFieldSubmitted();
+                    },
                     validator: (String value) {
                       if (!kOptions.contains(value)) {
                         return 'Nothing selected.';

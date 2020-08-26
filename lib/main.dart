@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'controller_only_page.dart';
+import 'core_async_page.dart';
 import 'core_basic_form_page.dart';
 import 'core_basic_page.dart';
 import 'core_basic_user_page.dart';
@@ -28,9 +30,9 @@ class MyApp extends StatelessWidget {
         '/core-basic-form': (BuildContext context) => AutocompleteCoreBasicFormPage(title: 'AutocompleteCore in a Form'),
         '/core-split': (BuildContext context) => AutocompleteCoreSplitPage(title: 'AutocompleteCore Split'),
         '/custom-ui': (BuildContext context) => CustomUIPage(title: 'AutocompleteController Only'),
+        '/async': (BuildContext context) => AsyncPage(title: 'Simple Async'),
         /*
         '/vanilla': (BuildContext context) => VanillaPage(title: 'Simplest Example'),
-        '/async': (BuildContext context) => AsyncPage(title: 'Simple Async'),
         '/custom-input': (BuildContext context) => CustomInputPage(title: 'Custom Input'),
         '/fully-customizable': (BuildContext context) => FullyCustomizablePage(title: 'Custon Input and Results'),
         //'/basic-own-controller': (BuildContext context) => BasicOwnControllerPage(title: 'BasicOwnController'),
@@ -96,6 +98,24 @@ class MyHomePage extends StatelessWidget {
                 subtitle: const Text('AutocompleteCore in a Form.'),
               ),
             ),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushNamed('/custom-ui');
+              },
+              child: ListTile(
+                title: const Text('AutocompleteController-only Custom UI'),
+                subtitle: const Text('Completely custom UI that only uses AutocompleteController.'),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushNamed('/async');
+              },
+              child: ListTile(
+                title: const Text('Simple Async'),
+                subtitle: const Text('Items are queried asynchronously.'),
+              ),
+            ),
             /*
             GestureDetector(
               onTap: () {
@@ -113,15 +133,6 @@ class MyHomePage extends StatelessWidget {
               child: ListTile(
                 title: const Text('Simplest Example'),
                 subtitle: const Text('Just pass a list of strings, widget handles everything by default.'),
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).pushNamed('/async');
-              },
-              child: ListTile(
-                title: const Text('Simple Async'),
-                subtitle: const Text('Items are queried asynchronously.'),
               ),
             ),
             GestureDetector(
@@ -155,15 +166,6 @@ class MyHomePage extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.of(context).pushNamed('/custom-ui');
-              },
-              child: ListTile(
-                title: const Text('Fully Custom UI'),
-                subtitle: const Text('Completely custom UI that only uses AutocompleteController.'),
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
                 Navigator.of(context).pushNamed('/floating-results');
               },
               child: ListTile(
@@ -184,98 +186,6 @@ class MyHomePage extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class CustomUIPage extends StatelessWidget {
-  CustomUIPage({
-    Key key,
-    this.title,
-  }) : super(key: key);
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
-      body: Center(
-        child: CustomUIAutocomplete(),
-      ),
-    );
-  }
-}
-
-class CustomUIAutocomplete extends StatefulWidget {
-  CustomUIAutocomplete({Key key}) : super(key: key);
-
-  @override
-  CustomUIAutocompleteState createState() => CustomUIAutocompleteState();
-}
-
-class CustomUIAutocompleteState extends State<CustomUIAutocomplete> {
-  AutocompleteController<String> _autocompleteController;
-  String _selection;
-
-  void _onChangeResults() {
-    setState(() {});
-  }
-
-  void _onChangeQuery() {
-    if (_autocompleteController.textEditingController.value.text != _selection) {
-      setState(() {
-        _selection = null;
-      });
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _autocompleteController = AutocompleteController<String>(
-      options: <String>[],//kOptions,
-    );
-    _autocompleteController.textEditingController.addListener(_onChangeQuery);
-    _autocompleteController.results.addListener(_onChangeResults);
-  }
-
-  @override
-  void dispose() {
-    _autocompleteController.textEditingController.removeListener(_onChangeQuery);
-    _autocompleteController.results.removeListener(_onChangeResults);
-    _autocompleteController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        // Query field.
-        TextFormField(
-          controller: _autocompleteController.textEditingController,
-        ),
-        // Results list.
-        if (_selection == null)
-          Expanded(
-            child: ListView(
-              children: _autocompleteController.results.value.map((String result) => GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _selection = result;
-                    _autocompleteController.textEditingController.text = result;
-                  });
-                },
-                child: ListTile(
-                  title: Text(result),
-                ),
-              )).toList(),
-            ),
-          ),
-      ],
     );
   }
 }
@@ -378,17 +288,6 @@ class Item {
   final double price = 1.99;
 }
 
-class Backend {
-  static Future<List<Item>>getItems([String query]) {
-    return Future<List<Item>>.delayed(const Duration(seconds: 2), () {
-      final List<String> queryResults = query == null
-          ? kOptions
-          : kOptions.where((String name) => name.contains(query)).toList();
-      return queryResults.map((String name) => Item(name: name)).toList();
-    });
-  }
-}
-
 // TODO(justinmc): A real debounce class should maybe operate on a per-callback
 // basis.
 class Debounce {
@@ -444,43 +343,6 @@ class VanillaPage extends StatelessWidget {
   }
 }
 
-class AsyncPage extends StatelessWidget {
-  AsyncPage({Key key, this.title}) : super(key: key);
-
-  final String title;
-  final AutocompleteController<String> _autocompleteController = AutocompleteController<String>(
-    // TODO(justinmc): This demo is lacking a loading state most obviously. Also
-    // debouncing.
-    search: (String query) async {
-      final List<Item> items = await Backend.getItems(query);
-      return items.map((Item item) => item.name).toList();
-    },
-  );
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
-      body: Center(
-        /*
-        child: Autocomplete<String>(
-          debounceDuration: const Duration(seconds: 2),
-          onSearch: (String query) async {
-            final List<Item> items = await Backend.getItems(query);
-            return items.map((Item item) => item.name).toList();
-          },
-        ),
-        */
-        child: AutocompleteDividedMaterial<String>(
-          autocompleteController: _autocompleteController
-        ),
-      ),
-    );
-  }
-}
-
 class CustomInputPage extends StatelessWidget {
   CustomInputPage({
     Key key,
@@ -501,7 +363,7 @@ class CustomInputPage extends StatelessWidget {
       body: Center(
         child: AutocompleteDividedMaterial<String>(
           autocompleteController: _autocompleteController,
-          buildField: (BuildContext context, TextEditingController textEditingController, AutocompleteOnSelectedString onSelectedString) {
+          buildField: (BuildContext context, TextEditingController textEditingController, VoidCallback onFieldSubmitted) {
             return TextField(
               controller: _autocompleteController.textEditingController,
               decoration: InputDecoration(
@@ -583,7 +445,7 @@ class FullyCustomizablePageState extends State<FullyCustomizablePage> {
         */
         child: AutocompleteDividedMaterial<String>(
           autocompleteController: _autocompleteController,
-          buildField: (BuildContext context, TextEditingController textEditingController, AutocompleteOnSelectedString onSelectedString) {
+          buildField: (BuildContext context, TextEditingController textEditingController, VoidCallback onFieldSubmitted) {
             return TextFormField(
               controller: _autocompleteController.textEditingController,
               decoration: InputDecoration(
