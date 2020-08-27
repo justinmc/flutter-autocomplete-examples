@@ -107,6 +107,7 @@ class MyHomePage extends StatelessWidget {
                 subtitle: const Text('Completely custom UI that only uses AutocompleteController.'),
               ),
             ),
+            /*
             GestureDetector(
               onTap: () {
                 Navigator.of(context).pushNamed('/async');
@@ -116,7 +117,6 @@ class MyHomePage extends StatelessWidget {
                 subtitle: const Text('Items are queried asynchronously.'),
               ),
             ),
-            /*
             GestureDetector(
               onTap: () {
                 Navigator.of(context).pushNamed('/core-split');
