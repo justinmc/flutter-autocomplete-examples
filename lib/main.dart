@@ -6,6 +6,7 @@ import 'controller_only_page.dart';
 import 'core_async_page.dart';
 import 'core_basic_form_page.dart';
 import 'core_basic_page.dart';
+import 'core_submit_fail_page.dart';
 import 'core_basic_user_page.dart';
 import 'core_split_page.dart';
 
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
         '/core-basic': (BuildContext context) => AutocompleteCoreBasicPage(title: 'AutocompleteCore Basic'),
         '/core-basic-user': (BuildContext context) => AutocompleteCoreBasicUserPage(title: 'AutocompleteCore Basic with a custom T type'),
         '/core-basic-form': (BuildContext context) => AutocompleteCoreBasicFormPage(title: 'AutocompleteCore in a Form'),
+        '/core-submit-fail': (BuildContext context) => AutocompleteCoreSubmitFailPage(title: 'AutocompleteCore Submission Fail'),
         '/core-split': (BuildContext context) => AutocompleteCoreSplitPage(title: 'AutocompleteCore Split'),
         '/custom-ui': (BuildContext context) => CustomUIPage(title: 'AutocompleteController Only'),
         '/async': (BuildContext context) => AsyncPage(title: 'Simple Async'),
@@ -96,6 +98,15 @@ class MyHomePage extends StatelessWidget {
               child: ListTile(
                 title: const Text('AutocompleteCore Basic Form'),
                 subtitle: const Text('AutocompleteCore in a Form.'),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushNamed('/core-submit-fail');
+              },
+              child: ListTile(
+                title: const Text('AutocompleteBasic Submission Fail'),
+                subtitle: const Text('Do something custom when the field is submitted with no valid result available.'),
               ),
             ),
             GestureDetector(
