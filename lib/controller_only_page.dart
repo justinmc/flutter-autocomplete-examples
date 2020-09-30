@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'constants.dart';
-//import 'selected_dialog.dart';
+import 'selected_dialog.dart';
 
-class CustomUIPage extends StatelessWidget {
-  CustomUIPage({
-    Key key,
-    this.title,
-  }) : super(key: key);
+class ControllerOnlyPage extends StatelessWidget {
+  ControllerOnlyPage({Key key, this.title}) : super(key: key);
 
   final String title;
 
@@ -18,50 +15,37 @@ class CustomUIPage extends StatelessWidget {
         title: Text(title),
       ),
       body: Center(
-        child: CustomUIAutocomplete(),
+        child: _ControllerOnlyExample(),
       ),
     );
   }
 }
 
-class CustomUIAutocomplete extends StatefulWidget {
-  CustomUIAutocomplete({Key key}) : super(key: key);
+class _ControllerOnlyExample extends StatefulWidget {
+  _ControllerOnlyExample({Key key}) : super(key: key);
 
   @override
-  CustomUIAutocompleteState createState() => CustomUIAutocompleteState();
+  _ControllerOnlyExampleState createState() => _ControllerOnlyExampleState();
 }
 
-class CustomUIAutocompleteState extends State<CustomUIAutocomplete> {
-  AutocompleteController<String> _autocompleteController;
-  String _selection;
+class _ControllerOnlyExampleState extends State<_ControllerOnlyExample> {
+  final AutocompleteController autocompleteController = AutocompleteController(
+    buildOptions: AutocompleteController.generateDefaultBuildOptions(kOptions),
+  );
 
-  void _onChangeResults() {
+  void _onChangedOptions() {
     setState(() {});
-  }
-
-  void _onChangeQuery() {
-    if (_autocompleteController.textEditingController.value.text != _selection) {
-      setState(() {
-        _selection = null;
-      });
-    }
   }
 
   @override
   void initState() {
     super.initState();
-    _autocompleteController = AutocompleteController<String>(
-      options: kOptions,
-    );
-    _autocompleteController.textEditingController.addListener(_onChangeQuery);
-    _autocompleteController.results.addListener(_onChangeResults);
+    autocompleteController.options.addListener(_onChangedOptions);
   }
 
   @override
   void dispose() {
-    _autocompleteController.textEditingController.removeListener(_onChangeQuery);
-    _autocompleteController.results.removeListener(_onChangeResults);
-    _autocompleteController.dispose();
+    autocompleteController.options.removeListener(_onChangedOptions);
     super.dispose();
   }
 
@@ -69,28 +53,44 @@ class CustomUIAutocompleteState extends State<CustomUIAutocomplete> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        // Query field.
+        // Field.
         TextFormField(
-          controller: _autocompleteController.textEditingController,
+          controller: autocompleteController.textEditingController,
+          onFieldSubmitted: (String value) {
+            // Select the first option if there is one, otherwise do nothing.
+            final List<String> options = autocompleteController.buildOptions(
+              autocompleteController.textEditingController.value,
+            );
+            if (options.isEmpty) {
+              return;
+            }
+            autocompleteController.selection.value = options[0];
+            showSelectedDialog(context, autocompleteController.selection.value);
+          },
         ),
-        // Results list.
-        if (_selection == null)
-          Expanded(
-            child: ListView(
-              children: _autocompleteController.results.value.map((String result) => GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _selection = result;
-                    _autocompleteController.textEditingController.value = TextEditingValue(
-                      selection: TextSelection.collapsed(offset: result.length),
-                      text: result,
-                    );
-                  });
+        // Results.
+        if (autocompleteController.options.value.length > 0
+            && autocompleteController.selection.value == null)
+          Material(
+            elevation: 4.0,
+            child: Container(
+              height: 200.0,
+              child: ListView.builder(
+                padding: EdgeInsets.all(8.0),
+                itemCount: autocompleteController.options.value.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final String result = autocompleteController.options.value[index];
+                  return GestureDetector(
+                    onTap: () {
+                      autocompleteController.selection.value = result;
+                      showSelectedDialog(context, autocompleteController.selection.value);
+                    },
+                    child: ListTile(
+                      title: Text(result),
+                    ),
+                  );
                 },
-                child: ListTile(
-                  title: Text(result),
-                ),
-              )).toList(),
+              ),
             ),
           ),
       ],

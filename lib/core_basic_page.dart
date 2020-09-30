@@ -31,7 +31,11 @@ class AutocompleteBasicExample extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AutocompleteCore<String>(
-      options: kOptions,
+      buildOptions: (TextEditingValue textEditingValue) {
+        return kOptions.where((String option) {
+          return option.contains(textEditingValue.text.toLowerCase());
+        }).toList();
+      },
       onSelected: (String selection) {
         showSelectedDialog(context, selection);
       },
@@ -46,9 +50,10 @@ class AutocompleteBasicExample extends StatelessWidget {
       buildResults: (BuildContext context, AutocompleteOnSelected<String> onSelected, List<String> results) {
         return Material(
           elevation: 4.0,
-          child: SizedBox(
+          child: Container(
             height: 200.0,
             child: ListView.builder(
+              padding: EdgeInsets.all(8.0),
               itemCount: results.length,
               itemBuilder: (BuildContext context, int index) {
                 final String result = results[index];

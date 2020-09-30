@@ -13,9 +13,6 @@ class AutocompleteCoreBasicFormPage extends StatefulWidget {
 
 class AutocompleteCoreBasicFormPageState extends State<AutocompleteCoreBasicFormPage> {
   final _formKey = GlobalKey<FormState>();
-  final AutocompleteController<String> _autocompleteController = AutocompleteController<String>(
-    options: kOptions,
-  );
   final TextEditingController _textEditingController = TextEditingController();
   String _dropdownValue;
   String _autocompleteSelection;
@@ -70,7 +67,11 @@ class AutocompleteCoreBasicFormPageState extends State<AutocompleteCoreBasicForm
                 },
               ),
               AutocompleteCore<String>(
-                autocompleteController: _autocompleteController,
+                buildOptions: (TextEditingValue textEditingValue) {
+                  return kOptions.where((String option) {
+                    return option.contains(textEditingValue.text.toLowerCase());
+                  }).toList();
+                },
                 onSelected: (String selection) {
                   setState(() {
                     _autocompleteSelection = selection;
@@ -99,6 +100,7 @@ class AutocompleteCoreBasicFormPageState extends State<AutocompleteCoreBasicForm
                     child: SizedBox(
                       height: 200.0,
                       child: ListView(
+                        padding: EdgeInsets.all(8.0),
                         children: results.map((String result) => GestureDetector(
                           onTap: () {
                             onSelected(result);

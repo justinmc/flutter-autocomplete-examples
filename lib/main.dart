@@ -2,13 +2,13 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'controller_only_page.dart';
-import 'core_async_page.dart';
+//import 'controller_only_page.dart';
+//import 'core_async_page.dart';
 import 'core_basic_form_page.dart';
 import 'core_basic_page.dart';
 import 'core_submit_fail_page.dart';
 import 'core_basic_user_page.dart';
-import 'core_split_page.dart';
+//import 'core_split_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -30,9 +30,9 @@ class MyApp extends StatelessWidget {
         '/core-basic-user': (BuildContext context) => AutocompleteCoreBasicUserPage(title: 'AutocompleteCore Basic with a custom T type'),
         '/core-basic-form': (BuildContext context) => AutocompleteCoreBasicFormPage(title: 'AutocompleteCore in a Form'),
         '/core-submit-fail': (BuildContext context) => AutocompleteCoreSubmitFailPage(title: 'AutocompleteCore Submission Fail'),
-        '/core-split': (BuildContext context) => AutocompleteCoreSplitPage(title: 'AutocompleteCore Split'),
-        '/custom-ui': (BuildContext context) => CustomUIPage(title: 'AutocompleteController Only'),
-        '/async': (BuildContext context) => AsyncPage(title: 'Simple Async'),
+        //'/core-split': (BuildContext context) => AutocompleteCoreSplitPage(title: 'AutocompleteCore Split'),
+        //'/custom-ui': (BuildContext context) => ControllerOnlyPage(title: 'AutocompleteController Only'),
+        //'/async': (BuildContext context) => AsyncPage(title: 'Simple Async'),
         /*
         '/vanilla': (BuildContext context) => VanillaPage(title: 'Simplest Example'),
         '/custom-input': (BuildContext context) => CustomInputPage(title: 'Custom Input'),
@@ -111,11 +111,11 @@ class MyHomePage extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.of(context).pushNamed('/custom-ui');
+                //Navigator.of(context).pushNamed('/custom-ui');
               },
               child: ListTile(
-                title: const Text('AutocompleteController-only Custom UI'),
-                subtitle: const Text('Completely custom UI that only uses AutocompleteController.'),
+                title: const Text('DISABLED AutocompleteController-only Custom UI'),
+                subtitle: const Text('Completely custom UI that only uses AutocompleteController, not AutocompleteCore. Needs autocomplete-controller branch update.'),
               ),
             ),
             /*
@@ -126,15 +126,6 @@ class MyHomePage extends StatelessWidget {
               child: ListTile(
                 title: const Text('Simple Async'),
                 subtitle: const Text('Items are queried asynchronously.'),
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).pushNamed('/core-split');
-              },
-              child: ListTile(
-                title: const Text('AutocompleteCore Split'),
-                subtitle: const Text('Render the results and field somewhere completely different.'),
               ),
             ),
             GestureDetector(
