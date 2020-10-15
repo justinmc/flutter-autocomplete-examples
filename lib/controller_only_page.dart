@@ -68,7 +68,7 @@ class _ControllerOnlyExampleState extends State<_ControllerOnlyExample> {
             showSelectedDialog(context, autocompleteController.selection.value);
           },
         ),
-        // Results.
+        // Options.
         if (autocompleteController.options.value.length > 0
             && autocompleteController.selection.value == null)
           Material(
@@ -79,14 +79,14 @@ class _ControllerOnlyExampleState extends State<_ControllerOnlyExample> {
                 padding: EdgeInsets.all(8.0),
                 itemCount: autocompleteController.options.value.length,
                 itemBuilder: (BuildContext context, int index) {
-                  final String result = autocompleteController.options.value[index];
+                  final String option = autocompleteController.options.value[index];
                   return GestureDetector(
                     onTap: () {
-                      autocompleteController.selection.value = result;
+                      autocompleteController.selection.value = option;
                       showSelectedDialog(context, autocompleteController.selection.value);
                     },
                     child: ListTile(
-                      title: Text(result),
+                      title: Text(option),
                     ),
                   );
                 },

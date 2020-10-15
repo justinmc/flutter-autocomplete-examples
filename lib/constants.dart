@@ -37,3 +37,9 @@ class User {
     return '$name, $email';
   }
 }
+
+final List<User> kUserOptions = <User>[
+  User(name: 'Alice', email: 'alice@example.com'),
+  User(name: 'Bob', email: 'bob@example.com'),
+  User(name: 'Charlie', email: 'charlie123@gmail.com'),
+];

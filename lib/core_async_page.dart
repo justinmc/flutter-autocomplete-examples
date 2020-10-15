@@ -44,7 +44,7 @@ class AsyncPage extends StatelessWidget {
           onSelected: (User selection) {
             showSelectedDialog(context, _autocompleteController.displayStringForOption(selection));
           },
-          buildField: (BuildContext context, TextEditingController textEditingController, VoidCallback onFieldSubmitted) {
+          fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, VoidCallback onFieldSubmitted) {
             return TextFormField(
               controller: textEditingController,
               onFieldSubmitted: (String value) {
@@ -52,7 +52,7 @@ class AsyncPage extends StatelessWidget {
               },
             );
           },
-          buildResults: (BuildContext context, AutocompleteOnSelected<User> onSelected, List<User> results) {
+          resultsBuilder: (BuildContext context, AutocompleteOnSelected<User> onSelected, List<User> results) {
             return Material(
               elevation: 4.0,
               child: SizedBox(

@@ -57,15 +57,15 @@ class AutocompleteSubmitFailExample extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AutocompleteCore<String>(
-      buildOptions: (TextEditingValue textEditingValue) {
+      optionsBuilder: (TextEditingValue textEditingValue) {
         return kOptions.where((String option) {
           return option.contains(textEditingValue.text.toLowerCase());
-        }).toList();
+        });
       },
       onSelected: (String selection) {
         showSelectedDialog(context, selection);
       },
-      buildField: (BuildContext context, TextEditingController textEditingController, VoidCallback onFieldSubmitted) {
+      fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, VoidCallback onFieldSubmitted) {
         return TextFormField(
           decoration: InputDecoration(
             hintText: "Try submitting the field with a value that doesn't match any of the options.",
@@ -81,25 +81,28 @@ class AutocompleteSubmitFailExample extends StatelessWidget {
           },
         );
       },
-      buildResults: (BuildContext context, AutocompleteOnSelected<String> onSelected, List<String> results) {
-        return Material(
-          elevation: 4.0,
-          child: SizedBox(
-            height: 200.0,
-            child: ListView.builder(
-              padding: EdgeInsets.all(8.0),
-              itemCount: results.length,
-              itemBuilder: (BuildContext context, int index) {
-                final String result = results[index];
-                return GestureDetector(
-                  onTap: () {
-                    onSelected(result);
-                  },
-                  child: ListTile(
-                    title: Text(result),
-                  ),
-                );
-              },
+      optionsViewBuilder: (BuildContext context, AutocompleteOnSelected<String> onSelected, Iterable<String> options) {
+        return Align(
+          alignment: Alignment.topLeft,
+          child: Material(
+            elevation: 4.0,
+            child: SizedBox(
+              height: 200.0,
+              child: ListView.builder(
+                padding: EdgeInsets.all(8.0),
+                itemCount: options.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final String option = options.elementAt(index);
+                  return GestureDetector(
+                    onTap: () {
+                      onSelected(option);
+                    },
+                    child: ListTile(
+                      title: Text(option),
+                    ),
+                  );
+                },
+              ),
             ),
           ),
         );

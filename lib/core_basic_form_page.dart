@@ -8,10 +8,10 @@ class AutocompleteCoreBasicFormPage extends StatefulWidget {
   final String title;
 
   @override
-  AutocompleteCoreBasicFormPageState createState() => AutocompleteCoreBasicFormPageState();
+  AutocompleteFormExample createState() => AutocompleteFormExample();
 }
 
-class AutocompleteCoreBasicFormPageState extends State<AutocompleteCoreBasicFormPage> {
+class AutocompleteFormExample extends State<AutocompleteCoreBasicFormPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _textEditingController = TextEditingController();
   String _dropdownValue;
@@ -67,17 +67,17 @@ class AutocompleteCoreBasicFormPageState extends State<AutocompleteCoreBasicForm
                 },
               ),
               AutocompleteCore<String>(
-                buildOptions: (TextEditingValue textEditingValue) {
+                optionsBuilder: (TextEditingValue textEditingValue) {
                   return kOptions.where((String option) {
                     return option.contains(textEditingValue.text.toLowerCase());
-                  }).toList();
+                  });
                 },
                 onSelected: (String selection) {
                   setState(() {
                     _autocompleteSelection = selection;
                   });
                 },
-                buildField: (BuildContext context, TextEditingController textEditingController, VoidCallback onFieldSubmitted) {
+                fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, VoidCallback onFieldSubmitted) {
                   return TextFormField(
                     controller: textEditingController,
                     decoration: InputDecoration(
@@ -94,27 +94,31 @@ class AutocompleteCoreBasicFormPageState extends State<AutocompleteCoreBasicForm
                     },
                   );
                 },
-                buildResults: (BuildContext context, AutocompleteOnSelected<String> onSelected, List<String> results) {
-                  return Material(
-                    elevation: 4.0,
-                    child: SizedBox(
-                      height: 200.0,
-                      child: ListView(
-                        padding: EdgeInsets.all(8.0),
-                        children: results.map((String result) => GestureDetector(
-                          onTap: () {
-                            onSelected(result);
-                          },
-                          child: ListTile(
-                            title: Text(result),
-                          ),
-                        )).toList(),
+                optionsViewBuilder: (BuildContext context, AutocompleteOnSelected<String> onSelected, Iterable<String> options) {
+                  final RenderBox renderBox = context.findRenderObject() as RenderBox;
+                  return Align(
+                    alignment: Alignment.topLeft,
+                    child: Material(
+                      elevation: 4.0,
+                      child: SizedBox(
+                        height: 200.0,
+                        child: ListView(
+                          padding: EdgeInsets.all(8.0),
+                          children: options.map((String option) => GestureDetector(
+                            onTap: () {
+                              onSelected(option);
+                            },
+                            child: ListTile(
+                              title: Text(option),
+                            ),
+                          )).toList(),
+                        ),
                       ),
                     ),
                   );
                 },
               ),
-              RaisedButton(
+              ElevatedButton(
                 onPressed: () {
                   FocusScope.of(context).requestFocus(new FocusNode());
                   if (!_formKey.currentState.validate()) {
@@ -135,7 +139,7 @@ class AutocompleteCoreBasicFormPageState extends State<AutocompleteCoreBasicForm
                           ),
                         ),
                         actions: <Widget>[
-                          FlatButton(
+                          TextButton(
                             child: Text('Ok'),
                             onPressed: () {
                               Navigator.of(context).pop();
@@ -155,5 +159,3 @@ class AutocompleteCoreBasicFormPageState extends State<AutocompleteCoreBasicForm
     );
   }
 }
-
-

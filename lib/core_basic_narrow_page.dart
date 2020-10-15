@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'selected_dialog.dart';
 
-class AutocompleteCoreBasicPage extends StatelessWidget {
-  AutocompleteCoreBasicPage({Key key, this.title}) : super(key: key);
+class AutocompleteCoreBasicNarrowPage extends StatelessWidget {
+  AutocompleteCoreBasicNarrowPage({Key key, this.title}) : super(key: key);
 
   final String title;
 
@@ -14,26 +14,28 @@ class AutocompleteCoreBasicPage extends StatelessWidget {
         title: Text(title),
       ),
       body: Center(
-        child: AutocompleteBasicExample(),
+        child: AutocompleteCoreBasicNarrowExample(),
       ),
     );
   }
 }
 
-class AutocompleteBasicExample extends StatelessWidget {
-  AutocompleteBasicExample({Key key}) : super(key: key);
+class AutocompleteCoreBasicNarrowExample extends StatelessWidget {
+  AutocompleteCoreBasicNarrowExample({Key key}) : super(key: key);
 
-  final List<String> _kOptions = <String>[
+  final List<String> _options = <String>[
     'aardvark',
     'bobcat',
     'chameleon',
   ];
 
+  final double _fieldWidth = 200.0;
+
   @override
   Widget build(BuildContext context) {
     return AutocompleteCore<String>(
       optionsBuilder: (TextEditingValue textEditingValue) {
-        return _kOptions.where((String option) {
+        return _options.where((String option) {
           return option.contains(textEditingValue.text.toLowerCase());
         });
       },
@@ -41,11 +43,14 @@ class AutocompleteBasicExample extends StatelessWidget {
         showSelectedDialog(context, selection);
       },
       fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, VoidCallback onFieldSubmitted) {
-        return TextFormField(
-          controller: textEditingController,
-          onFieldSubmitted: (String value) {
-            onFieldSubmitted();
-          },
+        return Container(
+          width: _fieldWidth,
+          child: TextFormField(
+            controller: textEditingController,
+            onFieldSubmitted: (String value) {
+              onFieldSubmitted();
+            },
+          ),
         );
       },
       optionsViewBuilder: (BuildContext context, AutocompleteOnSelected<String> onSelected, Iterable<String> options) {
@@ -55,6 +60,7 @@ class AutocompleteBasicExample extends StatelessWidget {
             elevation: 4.0,
             child: Container(
               height: 200.0,
+              width: _fieldWidth,
               child: ListView.builder(
                 padding: EdgeInsets.all(8.0),
                 itemCount: options.length,
@@ -77,3 +83,4 @@ class AutocompleteBasicExample extends StatelessWidget {
     );
   }
 }
+

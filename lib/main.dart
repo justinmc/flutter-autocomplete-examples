@@ -8,6 +8,7 @@ import 'core_basic_form_page.dart';
 import 'core_basic_page.dart';
 import 'core_submit_fail_page.dart';
 import 'core_basic_user_page.dart';
+import 'core_basic_narrow_page.dart';
 //import 'core_split_page.dart';
 
 void main() {
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
         '/core-basic': (BuildContext context) => AutocompleteCoreBasicPage(title: 'AutocompleteCore Basic'),
         '/core-basic-user': (BuildContext context) => AutocompleteCoreBasicUserPage(title: 'AutocompleteCore Basic with a custom T type'),
         '/core-basic-form': (BuildContext context) => AutocompleteCoreBasicFormPage(title: 'AutocompleteCore in a Form'),
+        '/core-basic-narrow': (BuildContext context) => AutocompleteCoreBasicNarrowPage(title: 'AutocompleteCore with a narrow field'),
         '/core-submit-fail': (BuildContext context) => AutocompleteCoreSubmitFailPage(title: 'AutocompleteCore Submission Fail'),
         //'/core-split': (BuildContext context) => AutocompleteCoreSplitPage(title: 'AutocompleteCore Split'),
         //'/custom-ui': (BuildContext context) => ControllerOnlyPage(title: 'AutocompleteController Only'),
@@ -98,6 +100,15 @@ class MyHomePage extends StatelessWidget {
               child: ListTile(
                 title: const Text('AutocompleteCore Basic Form'),
                 subtitle: const Text('AutocompleteCore in a Form.'),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushNamed('/core-basic-narrow');
+              },
+              child: ListTile(
+                title: const Text('AutocompleteCore Basic Narrow'),
+                subtitle: const Text('AutocompleteCore with a narrow field and options that match its width.'),
               ),
             ),
             GestureDetector(
@@ -217,7 +228,7 @@ class CustomSearchDelegate extends SearchDelegate {
   }
 
   @override
-  Widget buildResults(BuildContext context) {
+  Widget resultsBuilder(BuildContext context) {
     if (query.length < 3) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -365,7 +376,7 @@ class CustomInputPage extends StatelessWidget {
       body: Center(
         child: AutocompleteDividedMaterial<String>(
           autocompleteController: _autocompleteController,
-          buildField: (BuildContext context, TextEditingController textEditingController, VoidCallback onFieldSubmitted) {
+          fieldBuilder: (BuildContext context, TextEditingController textEditingController, VoidCallback onFieldSubmitted) {
             return TextField(
               controller: _autocompleteController.textEditingController,
               decoration: InputDecoration(
@@ -447,7 +458,7 @@ class FullyCustomizablePageState extends State<FullyCustomizablePage> {
         */
         child: AutocompleteDividedMaterial<String>(
           autocompleteController: _autocompleteController,
-          buildField: (BuildContext context, TextEditingController textEditingController, VoidCallback onFieldSubmitted) {
+          fieldBuilder: (BuildContext context, TextEditingController textEditingController, VoidCallback onFieldSubmitted) {
             return TextFormField(
               controller: _autocompleteController.textEditingController,
               decoration: InputDecoration(
@@ -462,7 +473,7 @@ class FullyCustomizablePageState extends State<FullyCustomizablePage> {
               },
             );
           },
-          buildResults: (BuildContext context, List<String> results, onSelected) {
+          resultsBuilder: (BuildContext context, List<String> results, onSelected) {
             if (_selection != null) {
               return const Text('emptiness!');
             }

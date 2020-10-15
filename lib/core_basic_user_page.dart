@@ -6,12 +6,6 @@ import 'selected_dialog.dart';
 class AutocompleteCoreBasicUserPage extends StatelessWidget {
   AutocompleteCoreBasicUserPage({Key key, this.title}) : super(key: key);
 
-  final List<User> _kUserOptions = <User>[
-    User(name: 'Alice', email: 'alice@example.com'),
-    User(name: 'Bob', email: 'bob@example.com'),
-    User(name: 'Charlie', email: 'charlie123@gmail.com'),
-  ];
-
   final String title;
   /*
   final AutocompleteController<User> _autocompleteController = AutocompleteController<User>(
@@ -26,8 +20,6 @@ class AutocompleteCoreBasicUserPage extends StatelessWidget {
   );
   */
 
-  static String _displayStringForOption(User option) => option.name;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,46 +27,65 @@ class AutocompleteCoreBasicUserPage extends StatelessWidget {
         title: Text(title),
       ),
       body: Center(
-        child: AutocompleteCore<User>(
-          buildOptions: (TextEditingValue textEditingValue) {
-            return _kUserOptions.where((User option) {
-              return option.toString().contains(textEditingValue.text.toLowerCase());
-            }).toList();
-          },
-          displayStringForOption: _displayStringForOption,
-          onSelected: (User selection) {
-            print('justin onselected $selection');
-            showSelectedDialog(context, _displayStringForOption(selection));
-          },
-          buildField: (BuildContext context, TextEditingController textEditingController, VoidCallback onFieldSubmitted) {
-            return TextFormField(
-              controller: textEditingController,
-              onFieldSubmitted: (String value) {
-                onFieldSubmitted();
-              },
-            );
-          },
-          buildResults: (BuildContext context, AutocompleteOnSelected<User> onSelected, List<User> results) {
-            return SizedBox(
-              height: 200.0,
-              child: Material(
-                elevation: 4.0,
-                child: ListView(
-                  padding: EdgeInsets.all(8.0),
-                  children: results.map((User result) => GestureDetector(
-                    onTap: () {
-                      onSelected(result);
-                    },
-                    child: ListTile(
-                      title: Text(_displayStringForOption(result)),
-                    ),
-                  )).toList(),
-                ),
-              ),
-            );
-          },
-        ),
+        child: AutocompleteCustomTypeExample(),
       ),
+    );
+  }
+}
+
+class AutocompleteCustomTypeExample extends StatelessWidget {
+  AutocompleteCustomTypeExample({Key key});
+
+  static final List<User> _userOptions = <User>[
+    User(name: 'Alice', email: 'alice@example.com'),
+    User(name: 'Bob', email: 'bob@example.com'),
+    User(name: 'Charlie', email: 'charlie123@gmail.com'),
+  ];
+
+  static String _displayStringForOption(User option) => option.name;
+
+  @override
+  Widget build(BuildContext context) {
+    return AutocompleteCore<User>(
+      optionsBuilder: (TextEditingValue textEditingValue) {
+        return _userOptions.where((User option) {
+          return option.toString().contains(textEditingValue.text.toLowerCase());
+        });
+      },
+      displayStringForOption: _displayStringForOption,
+      onSelected: (User selection) {
+        showSelectedDialog(context, _displayStringForOption(selection));
+      },
+      fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, VoidCallback onFieldSubmitted) {
+        return TextFormField(
+          controller: textEditingController,
+          onFieldSubmitted: (String value) {
+            onFieldSubmitted();
+          },
+        );
+      },
+      optionsViewBuilder: (BuildContext context, AutocompleteOnSelected<User> onSelected, Iterable<User> options) {
+        return Align(
+          alignment: Alignment.topLeft,
+          child: SizedBox(
+            height: 200.0,
+            child: Material(
+              elevation: 4.0,
+              child: ListView(
+                padding: EdgeInsets.all(8.0),
+                children: options.map((User option) => GestureDetector(
+                  onTap: () {
+                    onSelected(option);
+                  },
+                  child: ListTile(
+                    title: Text(_displayStringForOption(option)),
+                  ),
+                )).toList(),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
