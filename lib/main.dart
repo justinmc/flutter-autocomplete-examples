@@ -27,12 +27,12 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: <String, Widget Function(BuildContext)>{
         '/': (BuildContext context) => MyHomePage(title: 'Flutter Demo Home Page'),
-        '/core-basic': (BuildContext context) => AutocompleteCoreBasicPage(title: 'AutocompleteCore Basic'),
-        '/core-basic-user': (BuildContext context) => AutocompleteCoreBasicUserPage(title: 'AutocompleteCore Basic with a custom T type'),
-        '/core-basic-form': (BuildContext context) => AutocompleteCoreBasicFormPage(title: 'AutocompleteCore in a Form'),
-        '/core-basic-narrow': (BuildContext context) => AutocompleteCoreBasicNarrowPage(title: 'AutocompleteCore with a narrow field'),
-        '/core-submit-fail': (BuildContext context) => AutocompleteCoreSubmitFailPage(title: 'AutocompleteCore Submission Fail'),
-        //'/core-split': (BuildContext context) => AutocompleteCoreSplitPage(title: 'AutocompleteCore Split'),
+        '/core-basic': (BuildContext context) => RawAutocompleteBasicPage(title: 'RawAutocomplete Basic'),
+        '/core-basic-user': (BuildContext context) => RawAutocompleteBasicUserPage(title: 'RawAutocomplete Basic with a custom T type'),
+        '/core-basic-form': (BuildContext context) => RawAutocompleteBasicFormPage(title: 'RawAutocomplete in a Form'),
+        '/core-basic-narrow': (BuildContext context) => RawAutocompleteBasicNarrowPage(title: 'RawAutocomplete with a narrow field'),
+        '/core-submit-fail': (BuildContext context) => RawAutocompleteSubmitFailPage(title: 'RawAutocomplete Submission Fail'),
+        //'/core-split': (BuildContext context) => RawAutocompleteSplitPage(title: 'RawAutocomplete Split'),
         //'/custom-ui': (BuildContext context) => ControllerOnlyPage(title: 'AutocompleteController Only'),
         //'/async': (BuildContext context) => AsyncPage(title: 'Simple Async'),
         /*
@@ -80,7 +80,7 @@ class MyHomePage extends StatelessWidget {
                 Navigator.of(context).pushNamed('/core-basic');
               },
               child: ListTile(
-                title: const Text('AutocompleteCore Basic'),
+                title: const Text('RawAutocomplete Basic'),
                 subtitle: const Text('Two custom builders as minimal as possible.'),
               ),
             ),
@@ -89,7 +89,7 @@ class MyHomePage extends StatelessWidget {
                 Navigator.of(context).pushNamed('/core-basic-user');
               },
               child: ListTile(
-                title: const Text('AutocompleteCore Basic User'),
+                title: const Text('RawAutocomplete Basic User'),
                 subtitle: const Text('Minimal but with a custom T type.'),
               ),
             ),
@@ -98,8 +98,8 @@ class MyHomePage extends StatelessWidget {
                 Navigator.of(context).pushNamed('/core-basic-form');
               },
               child: ListTile(
-                title: const Text('AutocompleteCore Basic Form'),
-                subtitle: const Text('AutocompleteCore in a Form.'),
+                title: const Text('RawAutocomplete Basic Form'),
+                subtitle: const Text('RawAutocomplete in a Form.'),
               ),
             ),
             GestureDetector(
@@ -107,8 +107,8 @@ class MyHomePage extends StatelessWidget {
                 Navigator.of(context).pushNamed('/core-basic-narrow');
               },
               child: ListTile(
-                title: const Text('AutocompleteCore Basic Narrow'),
-                subtitle: const Text('AutocompleteCore with a narrow field and options that match its width.'),
+                title: const Text('RawAutocomplete Basic Narrow'),
+                subtitle: const Text('RawAutocomplete with a narrow field and options that match its width.'),
               ),
             ),
             GestureDetector(
@@ -126,7 +126,7 @@ class MyHomePage extends StatelessWidget {
               },
               child: ListTile(
                 title: const Text('DISABLED AutocompleteController-only Custom UI'),
-                subtitle: const Text('Completely custom UI that only uses AutocompleteController, not AutocompleteCore. Needs autocomplete-controller branch update.'),
+                subtitle: const Text('Completely custom UI that only uses AutocompleteController, not RawAutocomplete. Needs autocomplete-controller branch update.'),
               ),
             ),
             /*

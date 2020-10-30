@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'selected_dialog.dart';
 
-class AutocompleteCoreBasicNarrowPage extends StatelessWidget {
-  AutocompleteCoreBasicNarrowPage({Key key, this.title}) : super(key: key);
+class RawAutocompleteBasicNarrowPage extends StatelessWidget {
+  RawAutocompleteBasicNarrowPage({Key key, this.title}) : super(key: key);
 
   final String title;
 
@@ -14,14 +14,14 @@ class AutocompleteCoreBasicNarrowPage extends StatelessWidget {
         title: Text(title),
       ),
       body: Center(
-        child: AutocompleteCoreBasicNarrowExample(),
+        child: RawAutocompleteBasicNarrowExample(),
       ),
     );
   }
 }
 
-class AutocompleteCoreBasicNarrowExample extends StatelessWidget {
-  AutocompleteCoreBasicNarrowExample({Key key}) : super(key: key);
+class RawAutocompleteBasicNarrowExample extends StatelessWidget {
+  RawAutocompleteBasicNarrowExample({Key key}) : super(key: key);
 
   final List<String> _options = <String>[
     'aardvark',
@@ -33,7 +33,7 @@ class AutocompleteCoreBasicNarrowExample extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AutocompleteCore<String>(
+    return RawAutocomplete<String>(
       optionsBuilder: (TextEditingValue textEditingValue) {
         return _options.where((String option) {
           return option.contains(textEditingValue.text.toLowerCase());
@@ -42,11 +42,12 @@ class AutocompleteCoreBasicNarrowExample extends StatelessWidget {
       onSelected: (String selection) {
         showSelectedDialog(context, selection);
       },
-      fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, VoidCallback onFieldSubmitted) {
+      fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, FocusNode focusNode, VoidCallback onFieldSubmitted) {
         return Container(
           width: _fieldWidth,
           child: TextFormField(
             controller: textEditingController,
+            focusNode: focusNode,
             onFieldSubmitted: (String value) {
               onFieldSubmitted();
             },

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'constants.dart';
 
-class AutocompleteCoreBasicFormPage extends StatefulWidget {
-  AutocompleteCoreBasicFormPage({Key key, this.title}) : super(key: key);
+class RawAutocompleteBasicFormPage extends StatefulWidget {
+  RawAutocompleteBasicFormPage({Key key, this.title}) : super(key: key);
 
   final String title;
 
@@ -11,7 +11,7 @@ class AutocompleteCoreBasicFormPage extends StatefulWidget {
   AutocompleteFormExample createState() => AutocompleteFormExample();
 }
 
-class AutocompleteFormExample extends State<AutocompleteCoreBasicFormPage> {
+class AutocompleteFormExample extends State<RawAutocompleteBasicFormPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _textEditingController = TextEditingController();
   String _dropdownValue;
@@ -66,7 +66,7 @@ class AutocompleteFormExample extends State<AutocompleteCoreBasicFormPage> {
                   return null;
                 },
               ),
-              AutocompleteCore<String>(
+              RawAutocomplete<String>(
                 optionsBuilder: (TextEditingValue textEditingValue) {
                   return kOptions.where((String option) {
                     return option.contains(textEditingValue.text.toLowerCase());
@@ -77,12 +77,13 @@ class AutocompleteFormExample extends State<AutocompleteCoreBasicFormPage> {
                     _autocompleteSelection = selection;
                   });
                 },
-                fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, VoidCallback onFieldSubmitted) {
+                fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, FocusNode focusNode, VoidCallback onFieldSubmitted) {
                   return TextFormField(
                     controller: textEditingController,
                     decoration: InputDecoration(
-                      hintText: 'This is an AutocompleteCore!',
+                      hintText: 'This is an RawAutocomplete!',
                     ),
+                    focusNode: focusNode,
                     onFieldSubmitted: (String value) {
                       onFieldSubmitted();
                     },
@@ -134,7 +135,7 @@ class AutocompleteFormExample extends State<AutocompleteCoreBasicFormPage> {
                             children: <Widget>[
                               Text('DropdownButtonFormField: "$_dropdownValue"'),
                               Text('TextFormField: "${_textEditingController.text}"'),
-                              Text('AutocompleteCore: "$_autocompleteSelection"'),
+                              Text('RawAutocomplete: "$_autocompleteSelection"'),
                             ],
                           ),
                         ),

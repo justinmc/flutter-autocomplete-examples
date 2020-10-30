@@ -23,7 +23,7 @@ class AsyncPage extends StatelessWidget {
     // TODO(justinmc): This demo is lacking a loading state most obviously. Also
     // debouncing.
     displayStringForOption: (User option) => option.name,
-    // TODO(justinmc): Can use this async filter when AutocompleteCore is using
+    // TODO(justinmc): Can use this async filter when RawAutocomplete is using
     // FutureOr<List<T>>.
     /*
     filter: (String query) async {
@@ -39,7 +39,7 @@ class AsyncPage extends StatelessWidget {
         title: Text(title),
       ),
       body: Center(
-        child: AutocompleteCore<User>(
+        child: RawAutocomplete<User>(
           autocompleteController: _autocompleteController,
           onSelected: (User selection) {
             showSelectedDialog(context, _autocompleteController.displayStringForOption(selection));

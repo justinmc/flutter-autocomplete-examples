@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'selected_dialog.dart';
+import 'constants.dart';
 
-class AutocompleteCoreBasicPage extends StatelessWidget {
-  AutocompleteCoreBasicPage({Key key, this.title}) : super(key: key);
+class RawAutocompleteBasicPage extends StatelessWidget {
+  RawAutocompleteBasicPage({Key key, this.title}) : super(key: key);
 
   final String title;
 
@@ -13,7 +14,8 @@ class AutocompleteCoreBasicPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(title),
       ),
-      body: Center(
+      body: Align(
+        alignment: Alignment(0.0, -0.5),
         child: AutocompleteBasicExample(),
       ),
     );
@@ -23,26 +25,35 @@ class AutocompleteCoreBasicPage extends StatelessWidget {
 class AutocompleteBasicExample extends StatelessWidget {
   AutocompleteBasicExample({Key key}) : super(key: key);
 
+  /*
   final List<String> _kOptions = <String>[
     'aardvark',
     'bobcat',
     'chameleon',
   ];
+  */
+
+  TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
-    return AutocompleteCore<String>(
+    return RawAutocomplete<String>(
       optionsBuilder: (TextEditingValue textEditingValue) {
-        return _kOptions.where((String option) {
+        if (textEditingValue.text == null || textEditingValue.text == '') {
+          return const Iterable<String>.empty();
+        }
+        return kOptions.where((String option) {
           return option.contains(textEditingValue.text.toLowerCase());
         });
       },
       onSelected: (String selection) {
         showSelectedDialog(context, selection);
       },
-      fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, VoidCallback onFieldSubmitted) {
+      fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, FocusNode focusNode, VoidCallback onFieldSubmitted) {
+        controller = textEditingController;
         return TextFormField(
           controller: textEditingController,
+          focusNode: focusNode,
           onFieldSubmitted: (String value) {
             onFieldSubmitted();
           },
@@ -57,8 +68,17 @@ class AutocompleteBasicExample extends StatelessWidget {
               height: 200.0,
               child: ListView.builder(
                 padding: EdgeInsets.all(8.0),
-                itemCount: options.length,
+                itemCount: options.length + 1,
                 itemBuilder: (BuildContext context, int index) {
+                  if (index >= options.length) {
+                    return TextButton(
+                      child: const Text('clear'),
+                      onPressed: () {
+                        controller.clear();
+                        //onSelected(null);
+                      },
+                    );
+                  }
                   final String option = options.elementAt(index);
                   return GestureDetector(
                     onTap: () {

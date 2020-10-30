@@ -5,8 +5,8 @@ import 'constants.dart';
 
 // TODO(justinmc): This example won't work until we support non-floating
 // options.
-class AutocompleteCoreSplitPage extends StatelessWidget {
-  AutocompleteCoreSplitPage({Key key, this.title}) : super(key: key);
+class RawAutocompleteSplitPage extends StatelessWidget {
+  RawAutocompleteSplitPage({Key key, this.title}) : super(key: key);
 
   final String title;
 
@@ -22,7 +22,7 @@ class AutocompleteCoreSplitPage extends StatelessWidget {
         ),
       ),
       body: Center(
-        child: AutocompleteCore<String>(
+        child: RawAutocomplete<String>(
           optionsBuilder: (TextEditingValue textEditingValue) {
             return kOptions.where((String option) {
               return option.contains(textEditingValue.text.toLowerCase());

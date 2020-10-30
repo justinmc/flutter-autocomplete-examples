@@ -3,8 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'constants.dart';
 import 'selected_dialog.dart';
 
-class AutocompleteCoreSubmitFailPage extends StatelessWidget {
-  AutocompleteCoreSubmitFailPage({Key key, this.title}) : super(key: key);
+class RawAutocompleteSubmitFailPage extends StatelessWidget {
+  RawAutocompleteSubmitFailPage({Key key, this.title}) : super(key: key);
 
   final String title;
 
@@ -56,7 +56,7 @@ class AutocompleteSubmitFailExample extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AutocompleteCore<String>(
+    return RawAutocomplete<String>(
       optionsBuilder: (TextEditingValue textEditingValue) {
         return kOptions.where((String option) {
           return option.contains(textEditingValue.text.toLowerCase());
@@ -65,12 +65,13 @@ class AutocompleteSubmitFailExample extends StatelessWidget {
       onSelected: (String selection) {
         showSelectedDialog(context, selection);
       },
-      fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, VoidCallback onFieldSubmitted) {
+      fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, FocusNode focusNode, VoidCallback onFieldSubmitted) {
         return TextFormField(
           decoration: InputDecoration(
             hintText: "Try submitting the field with a value that doesn't match any of the options.",
           ),
           controller: textEditingController,
+          focusNode: focusNode,
           onFieldSubmitted: (String value) {
             onFieldSubmitted();
             // Here is where the field value is validated, and if it's not a

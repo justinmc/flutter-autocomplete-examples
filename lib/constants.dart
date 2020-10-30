@@ -1,3 +1,5 @@
+import 'dart:ui' show hashValues;
+
 const List<String> kOptions = <String>[
   'aardvark',
   'bobcat',
@@ -36,6 +38,18 @@ class User {
   String toString() {
     return '$name, $email';
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (other.runtimeType != runtimeType)
+      return false;
+    return other is User
+        && other.name == name
+        && other.email == email;
+  }
+
+  @override
+  int get hashCode => hashValues(email, name);
 }
 
 final List<User> kUserOptions = <User>[

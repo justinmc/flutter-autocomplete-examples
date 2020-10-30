@@ -3,8 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'constants.dart';
 import 'selected_dialog.dart';
 
-class AutocompleteCoreBasicUserPage extends StatelessWidget {
-  AutocompleteCoreBasicUserPage({Key key, this.title}) : super(key: key);
+class RawAutocompleteBasicUserPage extends StatelessWidget {
+  RawAutocompleteBasicUserPage({Key key, this.title}) : super(key: key);
 
   final String title;
   /*
@@ -46,7 +46,7 @@ class AutocompleteCustomTypeExample extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AutocompleteCore<User>(
+    return RawAutocomplete<User>(
       optionsBuilder: (TextEditingValue textEditingValue) {
         return _userOptions.where((User option) {
           return option.toString().contains(textEditingValue.text.toLowerCase());
@@ -56,9 +56,10 @@ class AutocompleteCustomTypeExample extends StatelessWidget {
       onSelected: (User selection) {
         showSelectedDialog(context, _displayStringForOption(selection));
       },
-      fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, VoidCallback onFieldSubmitted) {
+      fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, FocusNode focusNode, VoidCallback onFieldSubmitted) {
         return TextFormField(
           controller: textEditingController,
+          focusNode: focusNode,
           onFieldSubmitted: (String value) {
             onFieldSubmitted();
           },
