@@ -1,51 +1,95 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'constants.dart';
-// import 'selected_dialog.dart';
+import 'selected_dialog.dart';
 
-// TODO(justinmc): This example won't work until we support non-floating
-// options.
-class RawAutocompleteSplitPage extends StatelessWidget {
+class RawAutocompleteSplitPage extends StatefulWidget {
   RawAutocompleteSplitPage({Key key, this.title}) : super(key: key);
 
   final String title;
+
+  RawAutocompleteSplitPageState createState() => RawAutocompleteSplitPageState();
+}
+
+class RawAutocompleteSplitPageState extends State<RawAutocompleteSplitPage> {
+  final AutocompleteController _autocompleteController = AutocompleteController(
+    buildOptions: AutocompleteController.generateDefaultBuildOptions(kOptions),
+  );
+  final TextEditingController _textEditingController = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
+  VoidCallback _onFieldSubmitted;
+
+  void _onChangedOptions() {
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _autocompleteController.options.addListener(_onChangedOptions);
+  }
+
+  @override
+  void dispose() {
+    _autocompleteController.options.removeListener(_onChangedOptions);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        // This is where the real field is being built.
         title: TextFormField(
-          controller: _autocompleteController.textEditingController,
+          controller: _textEditingController,
+          focusNode: _focusNode,
           decoration: InputDecoration(
-            hintText: title,
+            hintText: widget.title,
           ),
+          onFieldSubmitted: (String value) {
+            _onFieldSubmitted();
+          },
         ),
       ),
-      body: Center(
+      body: Align(
+        alignment: Alignment.topLeft,
         child: RawAutocomplete<String>(
+          // The split approach is achieved by allowing RawAutocomplete to
+          // accept focusNode and textEditingController as parameters.
+          focusNode: _focusNode,
+          textEditingController: _textEditingController,
+          onSelected: (String selection) {
+            showSelectedDialog(context, selection);
+          },
           optionsBuilder: (TextEditingValue textEditingValue) {
             return kOptions.where((String option) {
               return option.contains(textEditingValue.text.toLowerCase());
             }).toList();
           },
-          fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, VoidCallback onFieldSubmitted) {
+          fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, FocusNode focusNode, VoidCallback onFieldSubmitted) {
+            // This is probably the weirdest part of this
+            // approach. In order to tell RawAutocomplete that the field has
+            // been submitted, I need to save this callback here, since the
+            // field is actually being built elsewhere.
+            _onFieldSubmitted = onFieldSubmitted;
+            // I build an empty field here, because the real field is built
+            // elsewhere.
             return SizedBox.shrink();
           },
-          optionsViewBuilder: (BuildContext context, AutocompleteOnSelected<String> onSelected, List<String> options) {
+          // TODO(justinmc): This example should use non-floating results once we support
+          // that.
+          optionsViewBuilder: (BuildContext context, AutocompleteOnSelected<String> onSelected, Iterable<String> options) {
             return Material(
               elevation: 4.0,
-              child: SizedBox(
-                height: 200.0,
-                child: ListView(
-                  children: options.map((String option) => GestureDetector(
-                    onTap: () {
-                      onSelected(option);
-                    },
-                    child: ListTile(
-                      title: Text(option),
-                    ),
-                  )).toList(),
-                ),
+              child: ListView(
+                children: options.map((String option) => GestureDetector(
+                  onTap: () {
+                    onSelected(option);
+                  },
+                  child: ListTile(
+                    title: Text(option),
+                  ),
+                )).toList(),
               ),
             );
           },

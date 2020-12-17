@@ -79,7 +79,7 @@ class _ControllerOnlyExampleState extends State<_ControllerOnlyExample> {
                 padding: EdgeInsets.all(8.0),
                 itemCount: autocompleteController.options.value.length,
                 itemBuilder: (BuildContext context, int index) {
-                  final String option = autocompleteController.options.value[index];
+                  final String option = autocompleteController.options.value.elementAt(index);
                   return GestureDetector(
                     onTap: () {
                       autocompleteController.selection.value = option;

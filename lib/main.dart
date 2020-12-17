@@ -2,14 +2,14 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-//import 'controller_only_page.dart';
+import 'controller_only_page.dart';
 //import 'core_async_page.dart';
 import 'core_basic_form_page.dart';
 import 'core_basic_page.dart';
 import 'core_submit_fail_page.dart';
 import 'core_basic_user_page.dart';
 import 'core_basic_narrow_page.dart';
-//import 'core_split_page.dart';
+import 'core_split_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -32,8 +32,8 @@ class MyApp extends StatelessWidget {
         '/core-basic-form': (BuildContext context) => RawAutocompleteBasicFormPage(title: 'RawAutocomplete in a Form'),
         '/core-basic-narrow': (BuildContext context) => RawAutocompleteBasicNarrowPage(title: 'RawAutocomplete with a narrow field'),
         '/core-submit-fail': (BuildContext context) => RawAutocompleteSubmitFailPage(title: 'RawAutocomplete Submission Fail'),
-        //'/core-split': (BuildContext context) => RawAutocompleteSplitPage(title: 'RawAutocomplete Split'),
-        //'/custom-ui': (BuildContext context) => ControllerOnlyPage(title: 'AutocompleteController Only'),
+        '/core-split': (BuildContext context) => RawAutocompleteSplitPage(title: 'AutocompleteController and RawAutocomplete Split'),
+        '/custom-ui': (BuildContext context) => ControllerOnlyPage(title: 'AutocompleteController Only'),
         //'/async': (BuildContext context) => AsyncPage(title: 'Simple Async'),
         /*
         '/vanilla': (BuildContext context) => VanillaPage(title: 'Simplest Example'),
@@ -122,11 +122,20 @@ class MyHomePage extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                //Navigator.of(context).pushNamed('/custom-ui');
+                Navigator.of(context).pushNamed('/custom-ui');
               },
               child: ListTile(
-                title: const Text('DISABLED AutocompleteController-only Custom UI'),
+                title: const Text('AutocompleteController-only Custom UI'),
                 subtitle: const Text('Completely custom UI that only uses AutocompleteController, not RawAutocomplete. Needs autocomplete-controller branch update.'),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushNamed('/core-split');
+              },
+              child: ListTile(
+                title: const Text('RawAutocomplete Split UI'),
+                subtitle: const Text('Field in the AppBar and results down in the main app.'),
               ),
             ),
             /*

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'selected_dialog.dart';
 import 'constants.dart';
+import 'selected_dialog.dart';
 
 class RawAutocompleteBasicPage extends StatelessWidget {
   RawAutocompleteBasicPage({Key key, this.title}) : super(key: key);
