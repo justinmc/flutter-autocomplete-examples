@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'controller_only_page.dart';
+//import 'controller_only_page.dart';
 //import 'core_async_page.dart';
 import 'core_basic_form_page.dart';
 import 'core_basic_page.dart';
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
         '/core-basic-narrow': (BuildContext context) => RawAutocompleteBasicNarrowPage(title: 'RawAutocomplete with a narrow field'),
         '/core-submit-fail': (BuildContext context) => RawAutocompleteSubmitFailPage(title: 'RawAutocomplete Submission Fail'),
         '/core-split': (BuildContext context) => RawAutocompleteSplitPage(title: 'AutocompleteController and RawAutocomplete Split'),
-        '/custom-ui': (BuildContext context) => ControllerOnlyPage(title: 'AutocompleteController Only'),
+        //'/custom-ui': (BuildContext context) => ControllerOnlyPage(title: 'AutocompleteController Only'),
         //'/async': (BuildContext context) => AsyncPage(title: 'Simple Async'),
         /*
         '/vanilla': (BuildContext context) => VanillaPage(title: 'Simplest Example'),

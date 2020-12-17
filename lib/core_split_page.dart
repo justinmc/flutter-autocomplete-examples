@@ -12,28 +12,9 @@ class RawAutocompleteSplitPage extends StatefulWidget {
 }
 
 class RawAutocompleteSplitPageState extends State<RawAutocompleteSplitPage> {
-  final AutocompleteController _autocompleteController = AutocompleteController(
-    buildOptions: AutocompleteController.generateDefaultBuildOptions(kOptions),
-  );
   final TextEditingController _textEditingController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
   VoidCallback _onFieldSubmitted;
-
-  void _onChangedOptions() {
-    setState(() {});
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _autocompleteController.options.addListener(_onChangedOptions);
-  }
-
-  @override
-  void dispose() {
-    _autocompleteController.options.removeListener(_onChangedOptions);
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
