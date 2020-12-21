@@ -14,7 +14,7 @@ class RawAutocompleteSplitPage extends StatefulWidget {
 class RawAutocompleteSplitPageState extends State<RawAutocompleteSplitPage> {
   final TextEditingController _textEditingController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
-  VoidCallback _onFieldSubmitted;
+  GlobalKey _autocompleteKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +28,14 @@ class RawAutocompleteSplitPageState extends State<RawAutocompleteSplitPage> {
             hintText: widget.title,
           ),
           onFieldSubmitted: (String value) {
-            _onFieldSubmitted();
+            RawAutocomplete.onFieldSubmitted(_autocompleteKey);
           },
         ),
       ),
       body: Align(
         alignment: Alignment.topLeft,
         child: RawAutocomplete<String>(
+          key: _autocompleteKey,
           // The split approach is achieved by allowing RawAutocomplete to
           // accept focusNode and textEditingController as parameters.
           focusNode: _focusNode,
@@ -46,16 +47,6 @@ class RawAutocompleteSplitPageState extends State<RawAutocompleteSplitPage> {
             return kOptions.where((String option) {
               return option.contains(textEditingValue.text.toLowerCase());
             }).toList();
-          },
-          fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, FocusNode focusNode, VoidCallback onFieldSubmitted) {
-            // This is probably the weirdest part of this
-            // approach. In order to tell RawAutocomplete that the field has
-            // been submitted, I need to save this callback here, since the
-            // field is actually being built elsewhere.
-            _onFieldSubmitted = onFieldSubmitted;
-            // I build an empty field here, because the real field is built
-            // elsewhere.
-            return SizedBox.shrink();
           },
           // TODO(justinmc): This example should use non-floating results once we support
           // that.
