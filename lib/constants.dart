@@ -31,9 +31,8 @@ class User {
   // When using a default filter function, the query will be matched
   // directly with the output of this toString method. In this case,
   // including both the email and name allows the user to filter by both.
-  // If you wanted even more advanced filter logic, you could pass a custom
-  // filter function into AutocompleteController and/or filterStringForOption
-  // into AutocompleteCore.
+  // If you wanted even more advanced filter logic, you could customize
+  // resultBuilder.
   @override
   String toString() {
     return '$name, $email';

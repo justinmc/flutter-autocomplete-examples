@@ -2,6 +2,10 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'basic_page.dart';
+import 'basic_form_page.dart';
+import 'basic_narrow_page.dart';
+import 'basic_user_page.dart';
 //import 'controller_only_page.dart';
 //import 'core_async_page.dart';
 import 'core_basic_form_page.dart';
@@ -27,6 +31,10 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: <String, Widget Function(BuildContext)>{
         '/': (BuildContext context) => MyHomePage(title: 'Flutter Demo Home Page'),
+        '/basic': (BuildContext context) => AutocompleteBasicPage(title: 'Autocomplete Basic'),
+        '/basic-user': (BuildContext context) => AutocompleteBasicUserPage(title: 'Autocomplete Basic User'),
+        '/basic-form': (BuildContext context) => AutocompleteBasicFormPage(title: 'Autocomplete Basic Form'),
+        '/basic-narrow': (BuildContext context) => AutocompleteBasicNarrowPage(title: 'Autocomplete with a narrow field'),
         '/core-basic': (BuildContext context) => RawAutocompleteBasicPage(title: 'RawAutocomplete Basic'),
         '/core-basic-user': (BuildContext context) => RawAutocompleteBasicUserPage(title: 'RawAutocomplete Basic with a custom T type'),
         '/core-basic-form': (BuildContext context) => RawAutocompleteBasicFormPage(title: 'RawAutocomplete in a Form'),
@@ -77,6 +85,42 @@ class MyHomePage extends StatelessWidget {
             */
             GestureDetector(
               onTap: () {
+                Navigator.of(context).pushNamed('/basic');
+              },
+              child: ListTile(
+                title: const Text('Autocomplete Basic'),
+                subtitle: const Text('Material Autocomplete'),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushNamed('/basic-user');
+              },
+              child: ListTile(
+                title: const Text('Autocomplete User'),
+                subtitle: const Text('Material Autocomplete with a custom T type'),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushNamed('/basic-form');
+              },
+              child: ListTile(
+                title: const Text('Autocomplete Form'),
+                subtitle: const Text('Material Autocomplete in a Form'),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushNamed('/basic-narrow');
+              },
+              child: ListTile(
+                title: const Text('Autocomplete Narrow'),
+                subtitle: const Text('Autocomplete with a narrow field and options that match its width.'),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
                 Navigator.of(context).pushNamed('/core-basic');
               },
               child: ListTile(
@@ -89,7 +133,7 @@ class MyHomePage extends StatelessWidget {
                 Navigator.of(context).pushNamed('/core-basic-user');
               },
               child: ListTile(
-                title: const Text('RawAutocomplete Basic User'),
+                title: const Text('RawAutocomplete User'),
                 subtitle: const Text('Minimal but with a custom T type.'),
               ),
             ),
@@ -98,7 +142,7 @@ class MyHomePage extends StatelessWidget {
                 Navigator.of(context).pushNamed('/core-basic-form');
               },
               child: ListTile(
-                title: const Text('RawAutocomplete Basic Form'),
+                title: const Text('RawAutocomplete Form'),
                 subtitle: const Text('RawAutocomplete in a Form.'),
               ),
             ),
@@ -107,7 +151,7 @@ class MyHomePage extends StatelessWidget {
                 Navigator.of(context).pushNamed('/core-basic-narrow');
               },
               child: ListTile(
-                title: const Text('RawAutocomplete Basic Narrow'),
+                title: const Text('RawAutocomplete Narrow'),
                 subtitle: const Text('RawAutocomplete with a narrow field and options that match its width.'),
               ),
             ),
@@ -116,7 +160,7 @@ class MyHomePage extends StatelessWidget {
                 Navigator.of(context).pushNamed('/core-submit-fail');
               },
               child: ListTile(
-                title: const Text('AutocompleteBasic Submission Fail'),
+                title: const Text('RawAutocomplete Submission Fail'),
                 subtitle: const Text('Do something custom when the field is submitted with no valid result available.'),
               ),
             ),

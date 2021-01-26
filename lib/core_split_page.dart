@@ -28,7 +28,7 @@ class RawAutocompleteSplitPageState extends State<RawAutocompleteSplitPage> {
             hintText: widget.title,
           ),
           onFieldSubmitted: (String value) {
-            RawAutocomplete.onFieldSubmitted(_autocompleteKey);
+            RawAutocomplete.onFieldSubmitted<String>(_autocompleteKey);
           },
         ),
       ),
