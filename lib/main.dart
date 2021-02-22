@@ -164,6 +164,7 @@ class MyHomePage extends StatelessWidget {
                 subtitle: const Text('Do something custom when the field is submitted with no valid result available.'),
               ),
             ),
+            /*
             GestureDetector(
               onTap: () {
                 Navigator.of(context).pushNamed('/custom-ui');
@@ -173,6 +174,7 @@ class MyHomePage extends StatelessWidget {
                 subtitle: const Text('Completely custom UI that only uses AutocompleteController, not RawAutocomplete. Needs autocomplete-controller branch update.'),
               ),
             ),
+            */
             GestureDetector(
               onTap: () {
                 Navigator.of(context).pushNamed('/core-split');
