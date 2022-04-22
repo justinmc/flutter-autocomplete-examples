@@ -28,6 +28,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
+      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      /*
       initialRoute: '/',
       routes: <String, Widget Function(BuildContext)>{
         '/': (BuildContext context) => MyHomePage(title: 'Flutter Demo Home Page'),
@@ -52,6 +54,7 @@ class MyApp extends StatelessWidget {
         '/cupertino': (BuildContext context) => CupertinoPage(title: 'Cupertino Field'),
         */
       },
+  */
     );
   }
 }
@@ -68,6 +71,8 @@ class MyHomePage extends StatelessWidget {
         title: Text(title),
       ),
       body: Center(
+        child: const Text('hi!'),
+        /*
         child: ListView(
           children: <Widget>[
             /*
@@ -253,6 +258,7 @@ class MyHomePage extends StatelessWidget {
             */
           ],
         ),
+        */
       ),
     );
   }
